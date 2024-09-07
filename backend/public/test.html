@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Socket.IO Test</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+
+<body>
+    <h1>Socket.IO Testing</h1>
+    <button onclick="registerUser()">Register User</button>
+
+    <script>
+        const io = require("socket.io-client");
+
+            // Connect to your backend's Socket.IO server
+            const socket = io("http://localhost:3000"); // Adjust URL to your backend's address
+
+            // Once connected, register the user (using email or another identifier)
+            socket.on("connect", () => {
+                console.log("Connected to the server as:", socket.id);
+
+                // Emit the registerUser event to the server
+                socket.emit("registerUser", "test@example.com"); // Replace with your test email
+
+                console.log("User test@example.com has been registered.");
+            });
+
+            // Listen for notifications from the server
+            socket.on("notification", (message) => {
+                console.log("Notification received:", message); // Display notifications
+            });
+
+            // Handle disconnection
+            socket.on("disconnect", () => {
+                console.log("Disconnected from server");
+            });
+    </script>
+</body>
+
+</html>
